@@ -1460,6 +1460,19 @@ if (sessionStorage.getItem('gsc_auth') === '1') {
   document.getElementById('loginScreen').classList.add('hidden');
   showApp();
 }
+
+  // Automatically update the view if another tab modifies localStorage data
+window.addEventListener('storage', (event) => {
+  if (event.key === 'gsc_items' || event.key === 'gsc_settings') {
+    // Re-load the items from localStorage and re-render everything
+    loadData(); // Or whatever function you use to load data into your 'items' variable
+    autoFlagOverdue();
+    renderDashboard();
+    renderAllItems();
+    updateSidebarMeta();
+    showToast('Data updated from another tab ✓');
+  }
+});
 // Otherwise the login screen is already visible — wait for user input
 </script>
 
